@@ -56,7 +56,7 @@ def generateDictArray(csvFile):
     df = pd.read_csv(f'static/{csvFile}.csv')
     return data
 
-def filterData(data, min='', max='', recordDate='', mobileNo=''):
+def filterData(data, min='', max='', recordDate='', mobileNo='', Type=''):
 
     filteredData = []
 
@@ -77,18 +77,24 @@ def filterData(data, min='', max='', recordDate='', mobileNo=''):
         recordDate = datetime.datetime.strptime(recordDate, '%Y-%m-%d').date()
         # print(recordDate, type(recordDate))
     
+    if Type == 'ALL':
+    
+        for dict in data:
+           
+            if dict['DURATION']>=min and dict['DURATION']<=max and dict['START'].date() < recordDate :
+                if mobileNo == '': 
+                    filteredData.append(dict)
+                elif dict['PHONE'] == mobileNo: 
+                    filteredData.append(dict)
+    else:
+        for dict in data:
+        
+            if dict['DURATION']>=min and dict['DURATION']<=max and dict['START'].date() < recordDate and dict['TYPE'] == Type:
+                if mobileNo == '': 
+                    filteredData.append(dict)
+                elif dict['PHONE'] == mobileNo: 
+                    filteredData.append(dict)
 
-    for dict in data:
-        # , dict['Start'].date() == recordDate, dict['PHONE'] == mobileNo 
-        # print(dict['Duration']>min, dict['Duration']<=max)
-
-        # and dict['Start'].date() == recordDate and dict['PHONE'] == mobileNo
-        #not working if no date is selected
-        if dict['DURATION']>=min and dict['DURATION']<=max and dict['START'].date() < recordDate:
-            if mobileNo == '': 
-                filteredData.append(dict)
-            elif dict['PHONE'] == mobileNo: 
-                filteredData.append(dict)
 
     # print(filteredData, len(filteredData))
 
@@ -113,11 +119,11 @@ def plot_duration():
         else:
             callee_duration[str(df['PHONE'][i])]=duration[i]
     callee_duration= dict( sorted(callee_duration.items(), key=operator.itemgetter(1),reverse=True))
+
     axis.bar(callee_duration.keys(),callee_duration.values())
+    axis.set_xticks(callee_duration.keys())
     
-    # axis.set_xticks(callee_duration.keys())
-    # callee_duration.keys(),
-    axis.set_xticklabels(rotation=40)    
+    axis.set_xticklabels(callee_duration.keys(),rotation=40)    
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
@@ -174,6 +180,7 @@ def home():
         # print(type(request.files['file']))
 
         csvFile = request.form['selected']
+        Type = request.form['TYPE']
         min = request.form['min']
         max = request.form['max']
         recordDate = request.form['date']
@@ -205,7 +212,8 @@ def home():
             for row in csv_file:
                 
                 para = duration(row['START'], row['END'])
-                row['Duration'] = para[0]
+                row['DURATION'] = para[0]
+                
                 row['START'] = para[1] 
                 row['END'] = para[2]
 
@@ -214,6 +222,7 @@ def home():
             # print(data)
 
             field_names = data[0].keys()
+            print(field_names)
             print(field_names)
             with open('static/temp.csv', 'w') as csvfile:
                 writer = csv.DictWriter(csvfile, fieldnames = field_names)
@@ -230,10 +239,10 @@ def home():
             data = generateDictArray(csvFile)
 
 
-        if min == '' and max == '' and recordDate == '' and mobileNo == '':
+        if min == '' and max == '' and recordDate == '' and mobileNo == '' and Type == '':
             filteredData = data
         else:
-            filteredData = filterData(data, min, max, recordDate, mobileNo)
+            filteredData = filterData(data, min, max, recordDate, mobileNo, Type)
 
         display = 'display: block'
        
