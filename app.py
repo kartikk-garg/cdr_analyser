@@ -10,7 +10,7 @@ import plotly.express as px
 import pandas as pd
 import numpy as np
 import datetime
-# from datetime import datetime
+import operator
 from flask.helpers import url_for
 import openpyxl
 
@@ -43,7 +43,7 @@ def generateDictArray(csvFile):
     with open(f'static/{csvFile}.csv', 'r') as file:
             csv_file = csv.DictReader(file)
             for row in csv_file:
-                print(row)
+                # print(row)
                 para = duration(row['START'], row['END'])
                 
                 row['DURATION'] = para[0] 
@@ -96,6 +96,31 @@ def filterData(data, min='', max='', recordDate='', mobileNo=''):
         return 'No Records Found'
     else:
         return filteredData
+
+@app.route('/duration.png')
+def plot_duration():
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    duration=[]
+    for i in range(100):
+        start=datetime.datetime.strptime(df['START'][i],'%Y-%m-%d %H:%M:%S')
+        end=datetime.datetime.strptime(df['END'][i],'%Y-%m-%d %H:%M:%S')
+        duration.append((end-start).total_seconds())
+        callee_duration={}
+    for i in range(100):
+        if(str(df['PHONE'][i]) in callee_duration):
+            callee_duration[str(df['PHONE'][i])]+=duration[i]
+        else:
+            callee_duration[str(df['PHONE'][i])]=duration[i]
+    callee_duration= dict( sorted(callee_duration.items(), key=operator.itemgetter(1),reverse=True))
+    axis.bar(callee_duration.keys(),callee_duration.values())
+    
+    # axis.set_xticks(callee_duration.keys())
+    # callee_duration.keys(),
+    axis.set_xticklabels(rotation=40)    
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 
 @app.route('/frequency.png')
 def plot_frequency():
@@ -156,7 +181,6 @@ def home():
         f = request.files['file']
 
         name = f.filename
-        print(min, max, recordDate, mobileNo, type(min), type(max), type(recordDate), type(mobileNo))
         # print(type(f))
 
         # print(min, max, recordDate, type(recordDate), mobileNo, type(mobileNo))
@@ -186,12 +210,21 @@ def home():
                 row['END'] = para[2]
 
                 data.append(row)
+            
+            # print(data)
+
+            field_names = data[0].keys()
+            print(field_names)
+            with open('static/temp.csv', 'w') as csvfile:
+                writer = csv.DictWriter(csvfile, fieldnames = field_names)
+                writer.writeheader()
+                writer.writerows(data)
 
             global df 
-            df = pd.read_csv(stream)
+            df = pd.read_csv('static/temp.csv')
 
         elif 'xlsx' in name:
-            data_xls = pd.read_excel(f)
+            data_xls = pd.read_excel(f, engine='openpyxl')
             file = data_xls.to_csv ('static/target.csv', index = None, header=True)
             csvFile = 'target'
             data = generateDictArray(csvFile)
@@ -205,7 +238,7 @@ def home():
         display = 'display: block'
        
         array = df.T.values.tolist()
-        print(array)
+        # print(array)
         # stream = io.TextIOWrapper(f.stream._file, "UTF8", newline=None)
         # csv_input = csv.reader(stream)
         

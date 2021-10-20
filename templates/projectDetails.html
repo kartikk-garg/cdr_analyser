@@ -1,2 +1,35 @@
 {% extends 'base.html' %}
-<p>This is the project detaikas page</p>
+{% block body %}
+	<style type="text/css">
+		body{
+			font-size: 20px;
+			font-weight: bold;
+		}
+		div{
+			text-align: center;
+		}
+		.box{
+			margin-bottom: 25px;	
+		}
+	</style>
+	<h2>Project Details Page</h2>
+	<h3><u>Technologies Stack Used</u></h3>
+	<ul>
+	  <li>Python
+	  	<ul>
+  		  <li>Flask</li>
+		  <li>Matplotlib</li>
+		  <li>Plotly</li>
+		  <li>Pandas</li>
+		</ul>
+	  </li>
+	  <li>Javascript</li>
+	  <li>HTML</li>
+	  <li>CSS</li>
+	</ul>
+	<div class='box'>Devloped By:
+		<div>Divyanshu Deoli <a href="https://github.com/divyanshudeoli">Github</a></div>
+		<div>Kartik Garg <a href="https://github.com/kartikk-garg">Github</a></div>
+	</div>
+	<div class='box'><a href="https://github.com/divyanshudeoli/cdr_analyser">Project Link</a></div>
+{% endblock body%}

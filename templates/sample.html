@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+<div class="container my-3">
+    <div class="mb-3 d-flex justify-content-START">
+      <button class="btn btn-primary" onclick="openCity(event, 'London')">Sample 1</button>
+      <button class="btn btn-primary" onclick="openCity(event, 'Paris')">Sample 2</button>
+      <button class="btn btn-primary" onclick="openCity(event, 'Tokyo')">Sample 3</button>
+    </div>
+    
+    <div id="London" class="tabcontent">
+      <div class="container my-3 border border-3 border border-white rounded-3 p-3 bg-dark bg-opacity-90 shadow"><h3 class= "text-white" >Sample 1</h3></div>
+
+      <!-- PHONE,IMEI1,IMEI2,TYPE,IMSI,START,End,Cell -->
+      
+      <table class="table border border-3 border border-white rounded-3 p-3 bg-dark bg-opacity-90 shadow">
+          <th class="text-white"ead>
+            <tr>
+              <th scope="col" class="text-white">SNo</th>
+              <th scope="col" class="text-white" >PHONE</th>
+              <th scope="col" class="text-white">TYPE</th>
+              <th scope="col" class="text-white">START</th>
+              <th scope="col" class="text-white">END</th>
+              <th scope="col" class="text-white">DURATION(S)</th>
+              <th scope="col" class="text-white">TOWER</th>
+              <th scope="col" class="text-white">IMEI1 </th>
+              <th scope="col" class="text-white">IMEI2</th> 
+              <th scope="col" class="text-white">LATITUDE</th>
+              <th scope="col" class="text-white">LONGITUDE</th>
+              <th scope="col" class="text-white">OPERATOR</th>              
+            </tr>
+          </thead>
+
+
+    {% for i in Sample1 %}      
+            
+            <tr>
+              <th class="text-white" scope="row">{{loop.index}}</th>
+              <td class="text-white" > {{i['PHONE']}} </td>
+              <td class="text-white"> {{i['TYPE']}} </td>
+              <td class="text-white"> {{i['START']}} </td>
+              <td class="text-white"> {{i['END']}} </td>
+              <td class="text-white"> {{i['DURATION']}} </td>
+              <td class="text-white"> {{i['TOWER']}} </td>
+              <td class="text-white"> {{i['IMEI1']}} </td>
+              <td class="text-white"> {{i['IMEI2']}} </td>
+              <td class="text-white"> {{i['LATITUDE']}} </td>
+              <td class="text-white"> {{i['LONGITUDE']}} </td>
+              <td class="text-white"> {{i['OPERATORS']}} </td>
+            </tr>
+  
+      {% endfor %}
+    </table>
+      
+    </div>
+    
+    <div id="Paris" class="tabcontent">
+      <div class="container my-3 border border-3 border border-white rounded-3 p-3 bg-dark bg-opacity-90 shadow"><h3 class= "text-white">Sample 2</h3></div>
+
+      <table class="table border border-3 border border-white rounded-3 p-3 bg-dark bg-opacity-90 shadow">
+        <th class="text-white"ead>
+          <tr>
+            <th scope="col" class="text-white">SNo</th>
+              <th scope="col" class="text-white" >PHONE</th>
+              <th scope="col" class="text-white">TYPE</th>
+              <th scope="col" class="text-white">START</th>
+              <th scope="col" class="text-white">END</th>
+              <th scope="col" class="text-white">DURATION(S)</th>
+              <th scope="col" class="text-white">TOWER</th>
+              <th scope="col" class="text-white">IMEI1 </th>
+              <th scope="col" class="text-white">IMEI2</th> 
+              <th scope="col" class="text-white">LATITUDE</th>
+              <th scope="col" class="text-white">LONGITUDE</th>
+              <th scope="col" class="text-white">OPERATOR</th>               
+          </tr>
+        </thead>
+        <tbody></tbody>
+
+  {% for i in Sample2 %}      
+          
+          <tr>
+            <th class="text-white" scope="row">{{loop.index}}</th>
+              <td class="text-white" > {{i['PHONE']}} </td>
+              <td class="text-white"> {{i['TYPE']}} </td>
+              <td class="text-white"> {{i['START']}} </td>
+              <td class="text-white"> {{i['END']}} </td>
+              <td class="text-white"> {{i['DURATION']}} </td>
+              <td class="text-white"> {{i['TOWER']}} </td>
+              <td class="text-white"> {{i['IMEI1']}} </td>
+              <td class="text-white"> {{i['IMEI2']}} </td>
+              <td class="text-white"> {{i['LATITUDE']}} </td>
+              <td class="text-white"> {{i['LONGITUDE']}} </td>
+              <td class="text-white"> {{i['OPERATORS']}} </td>
+          </tr>
+        
+    {% endfor %}
+</table>
+  
+    </div>
+    
+    <div id="Tokyo" class="tabcontent">
+      <div class="container my-3 border border-3 border border-white rounded-3 p-3 bg-dark bg-opacity-90 shadow"><h3 class= "text-white">Sample 3</h3></div>
+     
+      <table class="table border border-3 border border-white rounded-3 p-3 bg-dark bg-opacity-90 shadow">
+        <th class="text-white"ead>
+          <tr>
+            <th scope="col" class="text-white">SNo</th>
+              <th scope="col" class="text-white" >PHONE</th>
+              <th scope="col" class="text-white">TYPE</th>
+              <th scope="col" class="text-white">START</th>
+              <th scope="col" class="text-white">END</th>
+              <th scope="col" class="text-white">DURATION(S)</th>
+              <th scope="col" class="text-white">TOWER</th>
+              <th scope="col" class="text-white">IMEI1 </th>
+              <th scope="col" class="text-white">IMEI2</th> 
+              <th scope="col" class="text-white">LATITUDE</th>
+              <th scope="col" class="text-white">LONGITUDE</th>
+              <th scope="col" class="text-white">OPERATOR</th>             
+          </tr>
+        </thead>
+        <tbody></tbody>
+
+  {% for i in Sample3 %}      
+          
+          <tr>
+            <th class="text-white" scope="row">{{loop.index}}</th>
+              <td class="text-white" > {{i['PHONE']}} </td>
+              <td class="text-white"> {{i['TYPE']}} </td>
+              <td class="text-white"> {{i['START']}} </td>
+              <td class="text-white"> {{i['END']}} </td>
+              <td class="text-white"> {{i['DURATION']}} </td>
+              <td class="text-white"> {{i['TOWER']}} </td>
+              <td class="text-white"> {{i['IMEI1']}} </td>
+              <td class="text-white"> {{i['IMEI2']}} </td>
+              <td class="text-white"> {{i['LATITUDE']}} </td>
+              <td class="text-white"> {{i['LONGITUDE']}} </td>
+              <td class="text-white"> {{i['OPERATORS']}} </td>
+          </tr>
+         
+  
+    {% endfor %}
+</table>
+    </div>
+</div>
+    
+    <script>
+    function openCity(evt, cityName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("btn btn-primary");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+    </script>
+    {% endblock body %}
